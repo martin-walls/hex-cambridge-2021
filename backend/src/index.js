@@ -78,14 +78,14 @@ app.put("/user/:username", (req, res) => {
     });
 });
 
-// doesn't quite work yet
+// get next user that the current user hasn't swiped on yet
 app.get("/nextuser", (req, res) => {
   neode
     .cypher(
       `match (b:User) where not (b)-[:Swiped]-(:User {username: "${req.query.currentuser}"}) and b.username <> "${req.query.currentuser}" return b`
     )
     .then((r) => {
-      let u = r.hydrate();
+      let u = neode.hydrateFirst(r, "b");
       console.log(u);
       if (!u) {
         res.send({ success: false });
@@ -101,8 +101,24 @@ app.get("/nextuser", (req, res) => {
     });
 });
 
-// todo
-// app.put("/swipe")
+// add a relationship to the graph
+app.put("/swipe", (req, res) => {
+  let currentuser = req.body.currentuser;
+  let onuser = req.body.onuser;
+  let direction = req.body.direction;
+  let like = false;
+  if (direction === "right") {
+    like = true;
+  }
+
+  neode
+    .writeCypher(
+      `match (a:User {username: "${currentuser}"}),(b:User {username: "${onuser}"}) create (a)-[:Swiped {like: ${like}}]->(b)`
+    )
+    .then((r) => {
+      res.send({ success: true });
+    });
+});
 
 // startDatabase().then(async () => {
 
