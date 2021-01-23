@@ -1,4 +1,4 @@
-# Hex Cambridge 2021 submission
+# Hex Cambridge 2021: ChatCat
 
 ## Data sources
 
