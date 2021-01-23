@@ -32,21 +32,21 @@ app.get("/", (req, res) => {
 
     let usernames = [];
     for (let i = 0; i < u.length; i++) {
-      usernames.push(u.get(0).get("username"));
+      usernames.push(u.get(i).get("username"));
     }
 
     res.send(usernames);
   });
 });
 
+// create new user
 app.put("/user/:username", (req, res) => {
-
   neode.create("User", {
-    username: req.params.username
+    username: req.params.username,
+    img_url: req.body.img_url
   }).then(u => {
     res.send({success: true, username: u.get("username"), img_url: u.get("img_url")});
   });
-
 });
 
 // startDatabase().then(async () => {
