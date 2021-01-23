@@ -30,11 +30,12 @@ const App = () => {
   }, [user]);
 
   // On Logout
-  const logOut = () => {
+  const logOut = async () => {
     for (let key in user) {
       localStorage.setItem(key, "");
     }
-    setUser({})
+    setUser({});
+    // TODO: send request to the server saying that "username" wants to LOGOUT
   }
 
   if (!user.username || user.username==="") {

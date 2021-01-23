@@ -18,8 +18,8 @@ const Login = ({setUser}) => {
         e.preventDefault();
         if (username!=="") {
             //const res = await loginUser(username);
-            //const res = {user: {username: username, imgUrl:"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"}, success: true};
-            const res = {success: false}
+            const res = {user: {username: username, imgUrl:"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"}, success: true};
+            //const res = {success: false}
             if (res.success) {
                 setUser(res.user);
             } else {
