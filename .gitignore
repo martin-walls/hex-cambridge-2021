@@ -1,3 +1,4 @@
-# ide config folders
 .vscode/
 .idea/
+
+node_modules/
