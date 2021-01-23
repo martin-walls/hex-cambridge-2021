@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
+const request = require("request");
+
+require("dotenv").config();
+
+
 
 // const {startDatabase} = require("./database/neo");
 // const {getUsers} = require("./database/users");
@@ -78,6 +80,7 @@ app.put("/user/:username", (req, res) => {
     });
 });
 
+
 // get next user that the current user hasn't swiped on yet
 app.get("/nextuser", (req, res) => {
   neode
@@ -120,7 +123,26 @@ app.put("/swipe", (req, res) => {
     });
 });
 
-// startDatabase().then(async () => {
+
+app.get("/images", (req,res) => {
+  let count = req.query.count;
+  let apiKey = process.env.CAT_API_KEY;
+
+  request("https://api.thecatapi.com/v1/images/search?limit=10", {json: true, headers: {"x-api-key": apiKey}}, (err, r, body) => {
+    if (err) {res.send({success: false});}
+
+    let images = []
+
+    for (var i = 0; i < 10; i++) {
+      images.push(body[i].url);
+    }
+    res.send({
+      success: true,
+      images: images
+    })
+  })
+})
+
 
 app.listen(3000, () => {
   console.log("listening on port 3000");
