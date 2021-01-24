@@ -26,7 +26,7 @@ const App = () => {
     }
     return () => {
       for (let key in user) {
-        localStorage.setItem(key, "");
+        localStorage.removeItem(key);
       }
     }
   }, [user]);

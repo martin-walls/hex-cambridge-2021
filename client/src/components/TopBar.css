@@ -1,13 +1,16 @@
 #top-bar {
     display: flex;
     max-height: 100px;
-    justify-content: left;
+    width: 98%;
+    padding-left: 1%;
+    padding-right: 1%;
+    justify-content: space-between;
     align-items: center;
     position: absolute;
     margin-top: 10px;
 }
 
-#top-bar button {
+#head-and-logout button {
     margin: 10px;
     width: 100px;
     height: 100px;
@@ -16,4 +19,30 @@
     color: white;
     border-radius: 2%;
     border-style: solid;
+}
+
+#head-and-logout {
+    display: flex;
+    align-items: center;
+}
+
+#top-bar nav {
+    margin:10px;
+    min-height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-link {
+    margin:10px;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-link:hover {
+    margin:10px;
+    text-decoration: none;
+    background-color: blanchedalmond;
+    
+    color: white;
 }

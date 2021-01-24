@@ -1,0 +1,15 @@
+.message {
+    display: flex;
+    margin: 0%;
+}
+.message-body {
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-style: none;
+    border-radius: 3%;
+    min-width: fit-content;
+    width: 40%;
+    min-height: fit-content;
+    padding: 10px;
+    text-align: right;
+}
