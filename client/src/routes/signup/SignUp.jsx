@@ -45,15 +45,14 @@ const SignUp = ({ location }) => {
   };
 
   return (
-    <>
-      <div>{username}</div>
-      <h3>Please choose your cat</h3>
+    <div className="signup">
+      <h3>{username}, Please choose your cat</h3>
       <div className="cat-pics-choice-wrapper">
         {catPics.map((url, index) => (
           <CatPicChoice key={index} imgUrl={url} onClick={() => handleChoice(url)} size="300px" />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

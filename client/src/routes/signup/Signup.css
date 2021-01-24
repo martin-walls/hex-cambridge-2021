@@ -1,4 +1,15 @@
 .cat-pics-choice-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5%;
+}
+
+.cat-pics-choice-wrapper > * {
+  margin: 10px;
+}
+
+.signup {
+  text-align: center;
 }
