@@ -14,7 +14,9 @@ app.use(bodyParser.json());
 
 app.use("/", routes);
 
-app.listen(3002, () => {
-  console.log("listening on port 3002");
+const PORT = 3002;
+
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
 
