@@ -55,28 +55,31 @@ app.get("/", (req, res) => {
 // TODO send cat info
 app.get("/user/:username", (req, res) => {
   const username = req.params.username;
-  neode.first("User", "username", username).then((user) => {
-    if (!user) {
-      res.send({ success: false });
-    } else {
 
+  neode.cypher(
+    `match (u:User {username: "${username}"})-[:HasImage]->(i:Image) return u, i`
+  ).then(r => {
+    let u = neode.hydrateFirst(r, "u");
+    let i = neode.hydrateFirst(r, "i");
+    if (!u || !i) {
+      res.json({success: false});
+    } else {
+      // set status as logged in
       if (usersLog[username]) {
         usersLog[username].loggedIn = true;
       } else {
         usersLog[username] = {loggedIn: true}
       }
 
-
-      res.send({
+      res.json({
         success: true,
         user: {
-          username: user.get("username"),
-          imgUrl: user.get("img_url")
+          username: u.get("username"),
+          imgUrl: i.get("url"),
+          breeds: JSON.parse(i.get("breeds")),
+          categories: JSON.parse(i.get("categories"))
         }
       });
-      // sess = req.session;
-      // sess.username = user.get("username");
-      // sess.logged_in = true;
     }
   });
 });
@@ -91,9 +94,10 @@ app.put("/user/:username", (req, res) => {
   neode.writeCypher(
     `match (i:Image {url:"${imgUrl}"})
     create (u:User {username: "${username}"})-[:HasImage]->(i)
-    return u`
+    return u, i`
   ).then(r => {
-    let u = neode.hydrateFirst(r, "u");
+    const u = neode.hydrateFirst(r, "u");
+    const i = neode.hydrateFirst(r, "i");
     if (!u) {
       res.json({success: false});
     } else {
@@ -101,7 +105,9 @@ app.put("/user/:username", (req, res) => {
         success: true,
         user: {
           username: u.get("username"),
-          imgUrl: u.get("imgUrl")
+          imgUrl: i.get("url"),
+          breeds: JSON.parse(i.get("breeds")),
+          categories: JSON.parse(i.get("categories"))
         }
       });
     }
@@ -141,24 +147,28 @@ app.put("/user/:username", (req, res) => {
 
 
 // get next user that the current user hasn't swiped on yet
-//TODO return cat info
 // TODO improve selection algorithm
 app.get("/nextuser", (req, res) => {
   neode
     .cypher(
-      `match (b:User) where not (b)-[:Swiped]-(:User {username: "${req.query.currentuser}"}) and b.username <> "${req.query.currentuser}" return b`
+      `match (b:User)-[:HasImage]->(i:Image)
+      where not (b)-[:Swiped]-(:User {username: "${req.query.currentuser}"}) and b.username <> "${req.query.currentuser}" 
+      return b, i`
     )
     .then((r) => {
-      let u = neode.hydrateFirst(r, "b"); //todo improve this
+      const u = neode.hydrateFirst(r, "b");
+      const i = neode.hydrateFirst(r, "i");
       console.log(u);
       if (!u) {
-        res.send({ success: false });
+        res.json({ success: false });
       } else {
         res.json({
           success: true,
           user: {
             username: u.get("username"),
-            imgUrl: u.get("img_url")
+            imgUrl: i.get("url"),
+            breeds: JSON.parse(i.get("breeds")),
+            categories: JSON.parse(i.get("categories"))
           }
         });
       }
@@ -189,7 +199,6 @@ app.post("/swipe", (req, res) => {
     });
 });
 
-// TODO save cat info in db
 app.get("/images", (req,res) => {
   let count = req.query.count;
   let apiKey = process.env.CAT_API_KEY;
@@ -233,7 +242,35 @@ app.get("/images", (req,res) => {
 })
 
 
-app.get("/logout/:username", (req,res) => {
+// get all matches
+app.get("/:username/matches", (req,res) => {
+  const username = req.params.username;
+  
+  neode.cypher(
+    `match (a:User {username: "${username}"})-[:Swiped {like: true}]->(b:User)-[:Swiped {like: true}]->(a) return b`
+  ).then(r => {
+    const m = neode.hydrate(r, "b");
+
+    const matchNames = [];
+
+    for (let i=0; i<m.length; i++) {
+      matchNames.push(m.get(i).get("username"));
+    }
+
+    res.json({
+      success: true,
+      matches: matchNames
+    });
+
+  }).catch(err => {
+    console.log(err);
+    res.json({success: false});
+  });
+})
+
+
+// logout
+app.get("/:username/logout", (req,res) => {
   const username = req.params.username;
   if (usersLog[username]) {
     usersLog[username].loggedIn = false;
