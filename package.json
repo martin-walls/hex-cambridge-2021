@@ -1,8 +1,0 @@
-{
-  "name": "local-services-platform",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:MilkFansHelloWorld/hex-cambridge-2021.git",
-  "author": "MilkFansHelloWorld <tcw57@cam.ac.uk>",
-  "license": "MIT"
-}

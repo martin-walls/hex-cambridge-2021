@@ -4,6 +4,7 @@ import './Home.css';
 import CatPicChoice from '../../components/CatPicChoice';
 import axios from 'axios';
 import CatCard from '../../components/CatCard';
+import TopBar from '../../components/TopBar';
 
 
 const LEFT = "left";
@@ -30,7 +31,7 @@ const swipe = async(currentUser, onUser, direction) => {
     }).then(res => res.data);
 };
 
-const Home = ({user, logout}) => {
+const Home = ({user}) => {
     // TODO: this is just a place holder user object
     const [currentChoice, setCurrentChoice] = useState({username:"catA", imgUrl: "https://www.humanesociety.org/sites/default/files/styles/2000x850/public/2018/08/kitten-440379.jpg"});
 
@@ -51,12 +52,7 @@ const Home = ({user, logout}) => {
     )
 
     return (
-        <>
-            <div id="top-bar">
-                <button onClick = {logout}>Logout</button>
-                <CatPicChoice imgUrl={user.imgUrl} size="100px" onClick={()=>{}}/>
-            </div>
-            <div id="body">
+            <div id="home">
                 <h1>Home: Welcome back, {user.username}</h1>
                 <div id="main-body">
                     <button id="swipe-left" className="swipe" onClick={()=>handleClick(LEFT)}>SWIPE LEFT</button>
@@ -64,7 +60,6 @@ const Home = ({user, logout}) => {
                     <button id="swipe-right" className="swipe" onClick={()=>handleClick(RIGHT)}>SWIPE RIGHT</button>
                 </div>
             </div>
-        </>
     )
 }
 

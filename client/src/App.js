@@ -5,6 +5,8 @@ import './App.css';
 import Home from './routes/home/Home';
 import Login from './routes/login/Login';
 import SignUp from './routes/signup/SignUp';
+import Chat from './routes/chat/Chat';
+import TopBar from './components/TopBar';
 
 const App = () => {
   const [user, setUser] = useState({});
@@ -47,9 +49,15 @@ const App = () => {
     );
   }
   return (
-    <Router>
-      <Home path="/" user={user} logout={logOut}/>
-    </Router>
+    <>
+      <TopBar user={user} logout={logOut} />
+      <div id="body">
+      <Router>
+        <Home path="/" user={user} />
+        <Chat path="/chat" user={user} />
+      </Router>
+      </div>
+    </>
   )
 }
 

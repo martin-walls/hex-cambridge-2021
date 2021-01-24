@@ -1,0 +1,19 @@
+#top-bar {
+    display: flex;
+    max-height: 100px;
+    justify-content: left;
+    align-items: center;
+    position: absolute;
+    margin-top: 10px;
+}
+
+#top-bar button {
+    margin: 10px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    background-color: grey;
+    color: white;
+    border-radius: 2%;
+    border-style: solid;
+}
