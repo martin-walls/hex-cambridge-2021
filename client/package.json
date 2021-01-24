@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "react": "^17.0.1",
-    "react-chat-elements": "^10.13.0",
+    "react-beforeunload": "^2.4.0",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "socket.io-client": "^3.1.0",

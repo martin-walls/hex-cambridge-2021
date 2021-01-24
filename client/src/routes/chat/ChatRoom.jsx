@@ -5,7 +5,7 @@ import useChat from './utils/useChat';
 // import { MessageBox } from 'react-chat-elements';
 
 const CHAT_CHOICES = [
-    "meowwwwwwwww`(*>﹏<*)′", "meow\^o^/\^o^/"
+    "meowwwwwwwww`(*>﹏<*)′", "meow\\^o^/\\^o^/"
 ]
 
 const ChatRoom = ({user, roomId}) => {

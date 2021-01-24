@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 const getRoomId = async (currentUser, targetUser) => {
+    console.log("getting chat room with ", targetUser);
     return axios("http://PLACEHOLDER/getchatroom", 
     {
         method:"GET",
@@ -16,6 +17,7 @@ const getRoomId = async (currentUser, targetUser) => {
 };
 
 const getAllMatched = async (currentUser) => {
+    console.log("getting all matches");
     return axios("http://PLACEHOLDER/matches", 
     {
         method: "GET",
@@ -49,7 +51,6 @@ const Chat = ({user}) => {
 
     return (
         <>
-        <div>This is the chat room</div>
         <div id="chat">
             <div id="chat-side-bar">
                 <div id="chat-item-list">
