@@ -1,0 +1,44 @@
+body {
+    padding: 0%;
+    margin: 0%;
+}
+#home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 0%;
+}
+
+#main-body {
+    display: flex;
+    margin: 20px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#swipe-left {
+    background-color: lightblue;
+}
+
+#swipe-right {
+    background-color: lightpink;
+}
+
+.swipe {
+    color: aliceblue;
+    border-radius: 2%;
+    border-style: none;
+}
+
+#swipe-left:hover {
+    background-color: #00ccff;
+    box-shadow: 0 4px 8px 0 inset;
+}
+
+#swipe-right:hover {
+    background-color: rgb(252, 132, 150);
+    box-shadow: 0 4px 8px 0 inset;
+}

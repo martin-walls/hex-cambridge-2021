@@ -1,0 +1,4 @@
+.cat-pics-choice-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}

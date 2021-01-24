@@ -1,0 +1,12 @@
+.cat-pic {
+    overflow:hidden;
+    border-radius: 3%;
+    border-style: solid;
+    border-color:black;
+}
+
+.cat-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

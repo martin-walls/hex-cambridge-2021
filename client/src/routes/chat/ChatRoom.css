@@ -1,0 +1,37 @@
+#chat-room {
+    flex: 8;
+    height: 80vh;
+}
+
+#message-list {
+    list-style: none;
+    min-width: 100%;
+    padding-left: 0%;
+    margin-left: 0%;
+}
+
+.chat-box {
+    border-radius: 3%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    min-height: 95%;
+    max-height: 95%;
+    overflow:scroll;
+}
+
+.chat-choices {
+    display: flex;
+    width: 100%;
+}
+
+.chat-choices button {
+    flex:1;
+    color: white;
+    background-color: black;
+    border-radius: 3%;
+
+}
+
+.chat-choices button:hover {
+    background-color: grey;
+}
