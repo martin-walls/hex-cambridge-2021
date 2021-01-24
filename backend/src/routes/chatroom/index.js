@@ -9,11 +9,11 @@ const { username } = require("../../models/User");
 
 ///getchatroom body{currentUsername, nextUsername} response body {online: bool, roomId: string}
 
-chatroom.get("/", (req,res) => {
+chatroom.post("/", (req,res) => {
   let currentuser = req.body.currentUsername;
   let otheruser = req.body.targetUsername;
 
-  console.log(JSON.stringify(req.body));
+  console.log("req.body: " + JSON.stringify(req.body));
 
   neode.writeCypher(
     `match (a:User {username: "${currentuser}"})
@@ -41,6 +41,7 @@ chatroom.get("/", (req,res) => {
         return c`
       ).then(r2 => {
         const c2 = neode.hydrateFirst(r2, "c");
+        console.log(c2);
         if (!c2) {
           console.log("failed to create chatroom");
           res.json({success: false});

@@ -33,7 +33,7 @@ const SignUp = ({ location }) => {
   ]);
 
   useEffect(() => {
-    getCatPics(10)
+    getCatPics(12)
       .then((res) => res.images)
       .then((images) => setCatPics(images));
   }, []);

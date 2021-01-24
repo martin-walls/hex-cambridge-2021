@@ -6,7 +6,7 @@ import axios from "axios";
 const getRoomId = async (currentUser, targetUser) => {
   console.log("getting chat room with ", targetUser);
   return axios("/api/getchatroom", {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
