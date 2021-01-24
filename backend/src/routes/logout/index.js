@@ -13,4 +13,4 @@ logout.get("/", (req,res) => {
 });
 
 
-module.exports = logout
+module.exports = logout;

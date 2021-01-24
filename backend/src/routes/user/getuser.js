@@ -3,7 +3,6 @@ const neode = require("../../neo");
 const userLogger = require("../../userLogger");
 
 // log in user
-// TODO send cat info
 module.exports = (req, res) => {
   const username = req.params.username;
 
