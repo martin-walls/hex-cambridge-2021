@@ -6,7 +6,7 @@ module.exports = (req,res) => {
   const currentuser = req.query.currentuser;
   neode.cypher(
     `match (b:User)-[:HasImage]->(i:Image)
-    where not (b)-[:Swiped]-(:User {username: "${currentuser}"}) and b.username <> "${currentuser}" 
+    where not (b)<-[:Swiped]-(:User {username: "${currentuser}"}) and b.username <> "${currentuser}" 
     return b, i`)
     .then(r => {
       const us = neode.hydrate(r, "b");
