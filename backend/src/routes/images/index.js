@@ -24,10 +24,10 @@ images.get("/", (req,res) => {
     //   "height": 431
     // }]
 
-    let images = []
+    let imgs = []
 
     for (let i = 0; i < count; i++) {
-      images.push(body[i].url);
+      imgs.push(body[i].url);
 
       console.log(body[i]);
 
@@ -40,7 +40,7 @@ images.get("/", (req,res) => {
     }
     res.send({
       success: true,
-      images: images
+      images: imgs
     })
   })
 });
