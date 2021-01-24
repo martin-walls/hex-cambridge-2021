@@ -4,7 +4,7 @@ const neode = require("../../neo");
 
 
 matches.get("/", (req,res) => {
-  const username = req.params.username;
+  const username = req.query.currentuser;
   
   neode.cypher(
     `match (a:User {username: "${username}"})-[:Swiped {like: true}]->(b:User)-[:Swiped {like: true}]->(a) return b`
