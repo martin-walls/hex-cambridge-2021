@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const request = require("request");
+
 
 require("dotenv").config();
 
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 app.use("/", routes);
 
-app.listen(3000, () => {
-  console.log("listening on port 3000");
+app.listen(3002, () => {
+  console.log("listening on port 3002");
 });
 
