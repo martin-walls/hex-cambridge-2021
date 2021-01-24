@@ -2,21 +2,22 @@ const neode = require("../../neo");
 
 const chatroom = require("express").Router();
 
-const {v4} = require("uuid");
+const { v4 } = require("uuid");
 
 const userLogger = require("../../userLogger");
 const { username } = require("../../models/User");
 
 ///getchatroom body{currentUsername, nextUsername} response body {online: bool, roomId: string}
 
-chatroom.post("/", (req,res) => {
+chatroom.post("/", (req, res) => {
   let currentuser = req.body.currentUsername;
   let otheruser = req.body.targetUsername;
 
   console.log("req.body: " + JSON.stringify(req.body));
 
-  neode.writeCypher(
-    `match (a:User {username: "${currentuser}"})
+  neode
+    .writeCypher(
+      `match (a:User {username: "${currentuser}"})
     -[:Swiped {like: true}]->
       (b:User {username: "${otheruser}"})
           -[:Swiped {like: true}]->(a)
@@ -24,48 +25,56 @@ chatroom.post("/", (req,res) => {
     set c.online = true
     return c
       `
-  ).then(r => {
-    const c = neode.hydrateFirst(r, "c");
-    console.log(c);
+    )
+    .then((r) => {
+      const c = neode.hydrateFirst(r, "c");
+      console.log(c);
 
-    if (!c) {
-      // chatroom doesn't exist so create one
-      // const roomId = v4();
-      neode.writeCypher(
-        `match (a:User {username: "${currentuser}"})
+      if (!c) {
+        // chatroom doesn't exist so create one
+        const roomId = v4();
+        console.log("roomId: ", roomId);
+        neode
+          .writeCypher(
+            `match (a:User {username: "${currentuser}"})
         -[:Swiped {like: true}]->
           (b:User {username: "${otheruser}"})
               -[:Swiped {like: true}]->(a)
         create (a)-[:InChatroom]->(c:Chatroom)<-[:InChatroom]-(b)
-        set c.roomId = "${v4()}"
+        set c.roomId = "${roomId}"
         return c`
-      ).then(r2 => {
-        const c2 = neode.hydrateFirst(r2, "c");
-        console.log(c2);
-        if (!c2) {
-          console.log("failed to create chatroom");
-          res.json({success: false});
-        } else {
-          res.json({
-            success: true,
-            online: c2.get("online"),
-            roomgId: c2.get("roomId")
+          )
+          .then((r2) => {
+            const c2 = neode.hydrateFirst(r2, "c");
+            console.log(c2);
+            const online =
+              userLogger.getUsersLog.hasOwnProperty(otheruser) &&
+              userLogger.getUsersLog[otheruser].loggedIn;
+            if (!c2) {
+              console.log("failed to create chatroom");
+              res.json({ success: false });
+            } else {
+              res.json({
+                success: true,
+                online: online,
+                roomId: c2.get("roomId")
+              });
+            }
           });
-        }
-      })
-    } else {
-      // chatroom exists
+      } else {
+        // chatroom exists
 
-      const online = userLogger.getUsersLog.hasOwnProperty(otheruser) && userLogger.getUsersLog[otheruser].loggedIn;
+        const online =
+          userLogger.getUsersLog.hasOwnProperty(otheruser) &&
+          userLogger.getUsersLog[otheruser].loggedIn;
 
-
-      res.json({
-        success: true,
-        online: online,
-        roomId: c.get("roomId")
-      });
-    }
-  })
+        res.json({
+          success: true,
+          online: online,
+          roomId: c.get("roomId")
+        });
+      }
+    });
 
   // neode.cypher(
   //   `match (a:User {username: "${currentuser}"})
@@ -81,7 +90,6 @@ chatroom.post("/", (req,res) => {
   // })
 
   // res.json({uuid: v4()});
-})
-
+});
 
 module.exports = chatroom;

@@ -52,7 +52,12 @@ const Chat = ({ user }) => {
       console.log(e.target.value);
       const res = await getRoomId(user.username, e.target.value);
       console.log(JSON.stringify(res));
-      setRoomId(res.roomId);
+      if (res.online) {
+        console.log(res.roomId);
+        setRoomId(res.roomId);
+      } else {
+          alert("the user is not online");
+      }
     },
     [user]
   );

@@ -2,6 +2,8 @@ const matches = require("express").Router({ mergeParams: true });
 
 const neode = require("../../neo");
 
+const userLogger = require("../../userLogger");
+
 matches.get("/", (req, res) => {
   const username = req.query.currentuser;
   console.log(`getting matches for ${username}`);
@@ -16,7 +18,10 @@ matches.get("/", (req, res) => {
       const matchNames = [];
 
       for (let i = 0; i < m.length; i++) {
-        matchNames.push(m.get(i).get("username"));
+        const uname = m.get(i).get("username");
+        // if (userLogger.isLoggedIn(uname)) {
+          matchNames.push(uname);
+        // }
       }
 
       res.json({
