@@ -18,11 +18,11 @@ swipe.post("/", (req, res) => {
     )
     .then((r) => {
       res.send({ success: true });
-    }).catch(err => {
+    })
+    .catch((err) => {
       console.log(err);
-      res.json({success: false});
+      res.json({ success: false });
     });
 });
-
 
 module.exports = swipe;

@@ -4,10 +4,13 @@ import './Login.css';
 import { navigate } from '@reach/router';
 
 async function loginUser(username) {
-    return axios(`http://PLACEHOLDER/user/${username}`, {
+    return axios(`/api/user/${username}`, {
         method: 'GET'
     })
-    .then(res => res.data);
+    .then(res => {
+        console.log(JSON.stringify(res.data))
+        return res.data
+    });
 }
 
 
@@ -17,9 +20,10 @@ const Login = ({setUser}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (username!=="") {
-            //const res = await loginUser(username);
-            const res = {user: {username: username, imgUrl:"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"}, success: true};
+            const res = await loginUser(username);
+            //const res = {user: {username: username, imgUrl:"https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png"}, success: true};
             //const res = {success: false}
+            console.log(JSON.stringify(res.user));
             if (res.success) {
                 setUser(res.user);
             } else {

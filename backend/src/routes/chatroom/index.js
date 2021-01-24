@@ -11,7 +11,9 @@ const { username } = require("../../models/User");
 
 chatroom.get("/", (req,res) => {
   let currentuser = req.body.currentUsername;
-  let otheruser = req.body.nextUsername;
+  let otheruser = req.body.targetUsername;
+
+  console.log(JSON.stringify(req.body));
 
   neode.writeCypher(
     `match (a:User {username: "${currentuser}"})
@@ -34,7 +36,7 @@ chatroom.get("/", (req,res) => {
         -[:Swiped {like: true}]->
           (b:User {username: "${otheruser}"})
               -[:Swiped {like: true}]->(a)
-        merge (a)-[:InChatroom]->(c:Chatroom)<-[:InChatroom]-(b)
+        create (a)-[:InChatroom]->(c:Chatroom)<-[:InChatroom]-(b)
         set c.roomId = "${v4()}"
         return c`
       ).then(r2 => {
@@ -46,7 +48,7 @@ chatroom.get("/", (req,res) => {
           res.json({
             success: true,
             online: c2.get("online"),
-            roomId: c2.get("roomId")
+            roomgId: c2.get("roomId")
           });
         }
       })
